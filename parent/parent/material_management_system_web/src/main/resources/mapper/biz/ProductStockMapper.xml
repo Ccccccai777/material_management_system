@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lda.biz.mapper.ProductStockMapper">
+
+    <select id="findOutboundMaterials" resultType="com.lda.biz.entity.vo.ProductStockVO">
+        select ps.p_num,ps.stock ,p.name,p.id,
+        p.model,p.unit,p.image_url from
+       biz_product_stock ps
+         join
+       biz_product p
+     on ps.p_num=p.p_num
+       ${ew.customSqlSegment}
+    </select>
+    <select id="findAllStocks" resultType="com.lda.biz.entity.vo.ProductStockVO">
+    select ps.p_num,ps.stock ,p.name,p.id,
+    p.model,p.unit, from
+    biz_product_stock ps
+    join
+    biz_product p
+    on ps.p_num=p.p_num
+    ${ew.customSqlSegment}
+    </select>
+</mapper>

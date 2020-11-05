@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lda.system.mapper.LoginLogMapper">
+
+    <select id="findLoginLogByPage" resultType="com.lda.system.entity.vo.LoginLogVO">
+     select  id,username,login_time ,location,user_system,user_browser,ip
+      from tb_login_log
+      ${ew.customSqlSegment}
+    </select>
+    <select id="loginReport" resultType="java.util.Map">
+        select DATE_FORMAT(l.login_time,'%m-%d') days,count(1) count
+        from (
+        select username,login_time from tb_login_log
+        where
+        date_sub(curdate(), interval 20 day) &lt; date (login_time))
+         as l
+        <where>
+            <if test="username!=null and username!=''">
+              and l.username=#{username}
+            </if>
+        </where>
+        GROUP BY days
+
+    </select>
+</mapper>

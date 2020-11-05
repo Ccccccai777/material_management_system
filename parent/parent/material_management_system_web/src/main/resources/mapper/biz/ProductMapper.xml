@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lda.biz.mapper.ProductMapper">
+
+    <select id="findProductByPage" resultType="com.lda.biz.entity.vo.ProductVO">
+        select id,p_num,name,image_url,model,unit,remark,sort,create_time,modified_time,
+               one_category_id,two_category_id,three_category_id,status
+               from biz_product
+            ${ew.customSqlSegment}
+    </select>
+</mapper>

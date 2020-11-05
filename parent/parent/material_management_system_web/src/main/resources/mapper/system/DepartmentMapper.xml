@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lda.system.mapper.DepartmentMapper">
+
+    <select id="findDeptAndCount" resultType="Department">
+    select d.id,d.`name`,IFNULL(count(d.id),0)  total
+    from tb_user u JOIN tb_department  d
+        on u.department_id=d.id
+        where u.deleted=0
+        GROUP BY d.id
+
+    </select>
+
+    <select id="findDepartmentByPage" resultType="Department">
+    select d.id,d.name,d.phone,d.address,d.create_time,d.modified_time,count(u.id) total from
+      tb_department d
+      LEFT JOIN
+      tb_user u
+      on d.id=u.department_id
+     ${ew.customSqlSegment}
+    </select>
+</mapper>

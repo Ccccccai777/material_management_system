@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lda.biz.mapper.OutStockMapper">
+    <select id="findStatisticsOfWarehousingInformation" resultType="java.util.LinkedHashMap">
+        select date_format(create_time, '%Y-%m-%d') inStockInfoDate, sum(product_number) inStockInfoDateTotal
+        from biz_out_stock_info
+        ${ew.customSqlSegment}
+        group by date_format(create_time, '%Y-%m-%d')
+        ORDER BY create_time  desc
+    </select>
+
+
+
+    <select id="findAllStoredMaterials" resultType="java.util.LinkedHashMap">
+        select  p.`name`, sum(bos.product_number) total
+        from biz_out_stock_info bos join biz_product p
+        on bos.p_num=p.p_num
+        ${ew.customSqlSegment}
+        group by p.`name`
+        ORDER BY bos.create_time  desc
+    </select>
+    <select id="findRegionalContributionMaterials" resultType="java.util.LinkedHashMap">
+        select  SUBSTRING_INDEX(c.address,'/',1) as address, sum(bos.product_number) as total  from biz_out_stock bos
+	join biz_consumer c
+	on c.id= bos.consumer_id
+   ${ew.customSqlSegment}
+	GROUP BY  SUBSTRING_INDEX(c.address,'/',1)
+	ORDER BY bos.create_time  desc
+    </select>
+</mapper>
