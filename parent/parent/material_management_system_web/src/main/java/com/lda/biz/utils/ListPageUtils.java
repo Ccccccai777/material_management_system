@@ -19,6 +19,7 @@ public class ListPageUtils {
      * @return
      */
     public static <T> List<T> page(List<T> datas,int pageSize,int pageNo){
+         int gx=0;
         int startNum = (pageNo-1)* pageSize+1 ;                     //起始截取数据位置
         if(startNum > datas.size()){
             return null;
